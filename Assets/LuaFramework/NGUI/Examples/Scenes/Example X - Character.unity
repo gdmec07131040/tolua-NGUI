@@ -1203,7 +1203,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 5}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 499, y: 290, z: 0}
+  m_LocalPosition: {x: 750, y: 430, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 80}
@@ -1379,7 +1379,7 @@ Transform:
   m_GameObject: {fileID: 18}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: .00344827585, y: .00344827585, z: .00344827585}
+  m_LocalScale: {x: .00232558139, y: .00232558139, z: .00232558139}
   m_Children:
   - {fileID: 93}
   - {fileID: 81}
@@ -2458,9 +2458,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scalingStyle: 0
+  manualWidth: 1280
   manualHeight: 960
   minimumHeight: 320
   maximumHeight: 1536
+  fitWidth: 0
+  fitHeight: 1
   adjustByDPI: 0
   shrinkPortraitUI: 0
 --- !u!114 &169
@@ -2496,6 +2499,7 @@ MonoBehaviour:
   mWidth: 10
   mHeight: 5
   mDepth: 0
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2505,6 +2509,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -2517,9 +2524,9 @@ MonoBehaviour:
     width: 1
     height: 1
   mTexture: {fileID: 2800000, guid: 20f7cab44eaf6e849a8b7131f390055a, type: 3}
-  mMat: {fileID: 0}
   mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
   mBorder: {x: 0, y: 0, z: 0, w: 0}
+  mFixedAspect: 0
 --- !u!114 &170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2576,6 +2583,7 @@ MonoBehaviour:
   duration: .5
   steeperCurves: 0
   tweenGroup: 0
+  useFixedUpdate: 0
   onFinished: []
   eventReceiver: {fileID: 0}
   callWhenFinished: 
@@ -2633,6 +2641,7 @@ MonoBehaviour:
   mWidth: 255
   mHeight: 76
   mDepth: 6
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2642,6 +2651,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -2828,6 +2840,7 @@ MonoBehaviour:
   mWidth: 128
   mHeight: 128
   mDepth: 2
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2837,6 +2850,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -2904,6 +2920,7 @@ MonoBehaviour:
   mWidth: 86
   mHeight: 28
   mDepth: 3
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2922,12 +2939,17 @@ MonoBehaviour:
   mSymbols: 1
   mEffectDistance: {x: 1, y: 1}
   mOverflow: 1
-  mMaterial: {fileID: 0}
   mApplyGradient: 0
   mGradientTop: {r: 1, g: 1, b: 1, a: 1}
   mGradientBottom: {r: .5, g: .5, b: .5, a: 1}
   mSpacingX: 0
   mSpacingY: 0
+  mUseFloatSpacing: 0
+  mFloatSpacingX: 0
+  mFloatSpacingY: 0
+  mOverflowEllipsis: 0
+  mOverflowWidth: 0
+  mModifier: 0
   mShrinkToFit: 0
   mMaxLineWidth: 0
   mMaxLineHeight: 0
@@ -2963,9 +2985,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventType: 1
+  eventsGoToColliders: 0
   eventReceiverMask:
     serializedVersion: 2
     m_Bits: 256
+  processEventsIn: 0
   debug: 0
   useMouse: 1
   useTouch: 1
@@ -2974,18 +2998,23 @@ MonoBehaviour:
   useController: 1
   stickyTooltip: 1
   tooltipDelay: 1
+  longPressTooltip: 0
   mouseDragThreshold: 4
   mouseClickThreshold: 10
   touchDragThreshold: 40
   touchClickThreshold: 40
   rangeDistance: -1
-  scrollAxisName: Mouse ScrollWheel
-  verticalAxisName: Vertical
   horizontalAxisName: Horizontal
+  verticalAxisName: Vertical
+  horizontalPanAxisName: 
+  verticalPanAxisName: 
+  scrollAxisName: Mouse ScrollWheel
+  commandClick: 1
   submitKey0: 13
   submitKey1: 330
   cancelKey0: 27
   cancelKey1: 331
+  autoHideCursor: 1
 --- !u!114 &194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2999,6 +3028,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiCamera: {fileID: 0}
   text: {fileID: 195}
+  tooltipRoot: {fileID: 0}
   background: {fileID: 196}
   appearSpeed: 10
   scalingTransitions: 1
@@ -3035,6 +3065,7 @@ MonoBehaviour:
   mWidth: 272
   mHeight: 112
   mDepth: 8
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3054,12 +3085,17 @@ MonoBehaviour:
   mSymbols: 1
   mEffectDistance: {x: 1, y: 1}
   mOverflow: 3
-  mMaterial: {fileID: 0}
   mApplyGradient: 0
   mGradientTop: {r: 1, g: 1, b: 1, a: 1}
   mGradientBottom: {r: .5, g: .5, b: .5, a: 1}
   mSpacingX: 0
   mSpacingY: 0
+  mUseFloatSpacing: 0
+  mFloatSpacingX: 0
+  mFloatSpacingY: 0
+  mOverflowEllipsis: 0
+  mOverflowWidth: 0
+  mModifier: 0
   mShrinkToFit: 0
   mMaxLineWidth: 0
   mMaxLineHeight: 0
@@ -3098,6 +3134,7 @@ MonoBehaviour:
   mWidth: 296
   mHeight: 136
   mDepth: 7
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3107,6 +3144,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -3160,6 +3200,7 @@ MonoBehaviour:
   mWidth: 172
   mHeight: 28
   mDepth: 2
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3178,12 +3219,17 @@ MonoBehaviour:
   mSymbols: 1
   mEffectDistance: {x: 1, y: 1}
   mOverflow: 2
-  mMaterial: {fileID: 0}
   mApplyGradient: 0
   mGradientTop: {r: 1, g: 1, b: 1, a: 1}
   mGradientBottom: {r: .5, g: .5, b: .5, a: 1}
   mSpacingX: 0
   mSpacingY: 0
+  mUseFloatSpacing: 0
+  mFloatSpacingX: 0
+  mFloatSpacingY: 0
+  mOverflowEllipsis: 0
+  mOverflowWidth: 0
+  mModifier: 0
   mShrinkToFit: 0
   mMaxLineWidth: 0
   mMaxLineHeight: 0
@@ -3222,6 +3268,7 @@ MonoBehaviour:
   mWidth: 200
   mHeight: 40
   mDepth: 1
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3231,6 +3278,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -3332,9 +3382,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventType: 1
+  eventsGoToColliders: 0
   eventReceiverMask:
     serializedVersion: 2
     m_Bits: 512
+  processEventsIn: 0
   debug: 0
   useMouse: 1
   useTouch: 1
@@ -3343,18 +3395,23 @@ MonoBehaviour:
   useController: 1
   stickyTooltip: 1
   tooltipDelay: 1
+  longPressTooltip: 0
   mouseDragThreshold: 4
   mouseClickThreshold: 10
   touchDragThreshold: 40
   touchClickThreshold: 40
   rangeDistance: -1
-  scrollAxisName: Mouse ScrollWheel
-  verticalAxisName: Vertical
   horizontalAxisName: Horizontal
+  verticalAxisName: Vertical
+  horizontalPanAxisName: 
+  verticalPanAxisName: 
+  scrollAxisName: Mouse ScrollWheel
+  commandClick: 1
   submitKey0: 13
   submitKey1: 330
   cancelKey0: 27
   cancelKey1: 331
+  autoHideCursor: 1
 --- !u!114 &206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3388,6 +3445,7 @@ MonoBehaviour:
   mWidth: 88
   mHeight: 28
   mDepth: 5
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3406,12 +3464,17 @@ MonoBehaviour:
   mSymbols: 1
   mEffectDistance: {x: 1, y: 1}
   mOverflow: 2
-  mMaterial: {fileID: 0}
   mApplyGradient: 0
   mGradientTop: {r: 1, g: 1, b: 1, a: 1}
   mGradientBottom: {r: .5, g: .5, b: .5, a: 1}
   mSpacingX: 0
   mSpacingY: 0
+  mUseFloatSpacing: 0
+  mFloatSpacingX: 0
+  mFloatSpacingY: 0
+  mOverflowEllipsis: 0
+  mOverflowWidth: 0
+  mModifier: 0
   mShrinkToFit: 0
   mMaxLineWidth: 0
   mMaxLineHeight: 0
@@ -3450,6 +3513,7 @@ MonoBehaviour:
   mWidth: 52
   mHeight: 28
   mDepth: 5
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3468,12 +3532,17 @@ MonoBehaviour:
   mSymbols: 1
   mEffectDistance: {x: 1, y: 1}
   mOverflow: 2
-  mMaterial: {fileID: 0}
   mApplyGradient: 0
   mGradientTop: {r: 1, g: 1, b: 1, a: 1}
   mGradientBottom: {r: .5, g: .5, b: .5, a: 1}
   mSpacingX: 0
   mSpacingY: 0
+  mUseFloatSpacing: 0
+  mFloatSpacingX: 0
+  mFloatSpacingY: 0
+  mOverflowEllipsis: 0
+  mOverflowWidth: 0
+  mModifier: 0
   mShrinkToFit: 0
   mMaxLineWidth: 0
   mMaxLineHeight: 0
@@ -3512,6 +3581,7 @@ MonoBehaviour:
   mWidth: 66
   mHeight: 28
   mDepth: 5
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3530,12 +3600,17 @@ MonoBehaviour:
   mSymbols: 1
   mEffectDistance: {x: 1, y: 1}
   mOverflow: 2
-  mMaterial: {fileID: 0}
   mApplyGradient: 0
   mGradientTop: {r: 1, g: 1, b: 1, a: 1}
   mGradientBottom: {r: .5, g: .5, b: .5, a: 1}
   mSpacingX: 0
   mSpacingY: 0
+  mUseFloatSpacing: 0
+  mFloatSpacingX: 0
+  mFloatSpacingY: 0
+  mOverflowEllipsis: 0
+  mOverflowWidth: 0
+  mModifier: 0
   mShrinkToFit: 0
   mMaxLineWidth: 0
   mMaxLineHeight: 0
@@ -3574,6 +3649,7 @@ MonoBehaviour:
   mWidth: 123
   mHeight: 113
   mDepth: 4
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3583,6 +3659,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -3624,6 +3703,7 @@ MonoBehaviour:
   mWidth: 128
   mHeight: 128
   mDepth: 2
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3633,6 +3713,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -3674,6 +3757,7 @@ MonoBehaviour:
   mWidth: 128
   mHeight: 128
   mDepth: 2
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3683,6 +3767,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -3724,6 +3811,7 @@ MonoBehaviour:
   mWidth: 128
   mHeight: 128
   mDepth: 4
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3733,6 +3821,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -3774,6 +3865,7 @@ MonoBehaviour:
   mWidth: 123
   mHeight: 113
   mDepth: 4
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3783,6 +3875,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -3824,6 +3919,7 @@ MonoBehaviour:
   mWidth: 128
   mHeight: 128
   mDepth: 2
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3833,6 +3929,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -4370,9 +4469,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventType: 1
+  eventsGoToColliders: 0
   eventReceiverMask:
     serializedVersion: 2
     m_Bits: 4294966527
+  processEventsIn: 0
   debug: 0
   useMouse: 1
   useTouch: 1
@@ -4381,18 +4482,23 @@ MonoBehaviour:
   useController: 1
   stickyTooltip: 1
   tooltipDelay: 1
+  longPressTooltip: 0
   mouseDragThreshold: 4
   mouseClickThreshold: 10
   touchDragThreshold: 40
   touchClickThreshold: 40
   rangeDistance: -1
-  scrollAxisName: Mouse ScrollWheel
-  verticalAxisName: Vertical
   horizontalAxisName: Horizontal
+  verticalAxisName: Vertical
+  horizontalPanAxisName: 
+  verticalPanAxisName: 
+  scrollAxisName: Mouse ScrollWheel
+  commandClick: 1
   submitKey0: 13
   submitKey1: 330
   cancelKey0: 27
   cancelKey1: 331
+  autoHideCursor: 1
 --- !u!114 &225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4423,19 +4529,24 @@ MonoBehaviour:
   updateAnchors: 1
   showInPanelTool: 1
   generateNormals: 0
+  generateUV2: 0
   widgetsAreStatic: 0
   cullWhileDragging: 0
   alwaysOnScreen: 0
   anchorOffset: 0
+  softBorderPadding: 1
   renderQueue: 0
   startingRenderQueue: 3002
+  mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 0, w: 0}
   mClipSoftness: {x: 40, y: 40}
   mDepth: 2
   mSortingOrder: 0
+  mSortingLayerName: 
   mClipOffset: {x: 0, y: 0}
+  useSortingOrder: 0
 --- !u!114 &226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4466,19 +4577,24 @@ MonoBehaviour:
   updateAnchors: 1
   showInPanelTool: 1
   generateNormals: 0
+  generateUV2: 0
   widgetsAreStatic: 0
   cullWhileDragging: 0
   alwaysOnScreen: 0
   anchorOffset: 0
+  softBorderPadding: 1
   renderQueue: 0
   startingRenderQueue: 3001
+  mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 0, w: 0}
   mClipSoftness: {x: 40, y: 40}
   mDepth: 1
   mSortingOrder: 0
+  mSortingLayerName: 
   mClipOffset: {x: 0, y: 0}
+  useSortingOrder: 0
 --- !u!114 &227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4509,19 +4625,24 @@ MonoBehaviour:
   updateAnchors: 1
   showInPanelTool: 1
   generateNormals: 0
+  generateUV2: 0
   widgetsAreStatic: 0
   cullWhileDragging: 0
   alwaysOnScreen: 0
   anchorOffset: 0
+  softBorderPadding: 1
   renderQueue: 0
   startingRenderQueue: 3000
+  mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 0, w: 0}
   mClipSoftness: {x: 40, y: 40}
   mDepth: 0
   mSortingOrder: 0
+  mSortingLayerName: 
   mClipOffset: {x: 0, y: 0}
+  useSortingOrder: 0
 --- !u!196 &228
 NavMeshSettings:
   m_ObjectHideFlags: 0
@@ -4536,4 +4657,5 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
+    tileSizeHint: 0
   m_NavMesh: {fileID: 0}

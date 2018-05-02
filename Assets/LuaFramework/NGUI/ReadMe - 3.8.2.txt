@@ -1,7 +1,7 @@
 ----------------------------------------------
             NGUI: Next-Gen UI kit
- Copyright © 2011-2015 Tasharen Entertainment
-            Version 3.8.2
+ Copyright © 2011-2016 Tasharen Entertainment
+            Version 3.11.4
     http://www.tasharen.com/?page_id=197
             support@tasharen.com
 ----------------------------------------------
@@ -54,6 +54,178 @@ and it will not be included in the build of your game. It's only used in the edi
 -----------------
  Version History
 -----------------
+
+3.11.4
+- FIX: Assortment of various minor fixes for issues reported on the forums.
+
+3.11.3
+- NEW: Popup list now has an option to control whether it opens on press or on click.
+- NEW: TweenAlpha is now able to tween light sources as well.
+- NEW: Better logic for UICamera.isOverUI, UICamera.uiHasFocus and UICamera.interactingWithUI.
+- FIX: UICenterOnChild will now scroll up/down in the proper direction when using the mouse wheel.
+- FIX: UIKeyBinding will now set the currentTouch to -1 before firing its OnBindingPress function.
+- FIX: Reverted UILabel.OnFontChanged (dynamic fonts) since it's now working how it used to (?)
+- FIX: Fix for underline and label spacing being broken.
+
+3.11.2
+- FIX: Fix for the popup list not re-opening properly in some cases with touch input.
+- FIX: Rewrote how '...' gets appended at the end of wrapped labels, fixing its functionality when sup/subscript is used in the same label.
+- FIX: Reverted the ordering of triangles for UI, making them face the -Z again.
+- FIX: Added code to NGUI's main default shaders (Unlit/Transparent Colored and Unlit/Text) to handle single pass VR.
+- FIX: Choosing to hide a side of an advanced sprite will now also hide corners on that side.
+- FIX: Small fix to how UIGrid and UITable would handle widgets with SpringPosition attached.
+
+3.11.1
+- NEW: Added a 'keep value' option to the popup list that will make popup values persist even after it disappears, like it used to work before the change many versions back.
+- FIX: Popup list with values defined at edit time no longer has an initial value (unless the new 'keep value' is checked).
+- FIX: Capitalized versions of bbcode keywords like [B] will now work in addition to lowercase.
+- FIX: Backwards compatibility fixes with Unity 5.3.
+
+3.11.0
+- NEW: It's now possible to specify a custom material on regular NGUI sprites and labels.
+- NEW: Added UV2 support, specified on the panels. Secondary UVs can be easily used to add multi-texturing effects such as blended tiled backgrounds or simply detail textures, enhancing your UI's look.
+- NEW: Draw call now uses a material property block to specify the main texture as it works better at edit time.
+- NEW: UIGeometry now has a onCustomWrite delegate that can be used to modify the generated geometry as you see fit.
+- NEW: Added camera.FitOnScreen(transform) to simplify adjusting some group of widget's position to be within screen bounds.
+- NEW: Tweens can now be set to use FixedUpdate for their animation.
+- NEW: Added UIDrawCall.onCreateDrawCall that's called every time a new draw call gets created.
+- NEW: Added UIDrawCall.shadowMode that can be used to change the shadow casting mode.
+- FIX: NGUI's geometry should now work with one-sided shaders.
+- NEW: Added UICamera.lastWorldRay to hold the last ray used to cast into the world.
+- NEW: Added UICamera.mouse0, mouse1, mouse2 to access the mouse directly.
+- NEW: UICamera.uiHasFocus to return 'true' when there is an active UI interaction happening.
+- NEW: NGUI raycasts into the world will now automatically ignore triggers if the event type is set to World_3D.
+- FIX: Popup list's panel now keeps the sorting order of its parent panel.
+- FIX: Tweener.Begin now always clears the onFinished callback list.
+- FIX: Eliminated GC allocations from raycasts.
+
+3.10.2
+- NEW: Added UIDrawCall.MoveToScene for Unity 5.4+ to make it easier to move the UI to another scene.
+- FIX: Fixed an issue with Unity 5.4.1 in regards to the NGUI menu.
+- FIX: DragDropItem will now inverse transform the delta, so it should theoretically work even with rotated panels.
+- FIX: DragDropItem now again clears the scroll view reference after the drag operation completes.
+- FIX: Unity 5.4 DX9 bug work-around (no longer marking VBOs as dynamic).
+
+3.10.1
+- NEW: Added UICamera.ignoreAllEvents to easily disable all NGUI events.
+- FIX: Unity 5.4 editor on OSX: fixes for retina-related glitches of 5.4.
+- FIX: Gamma to linear conversion now happens in the draw call class and no longer needs to be set in each OnFill function.
+
+3.10.0
+- NEW: Added Texture2D.MakeReadable(true/false) -- a convenience extension for the editor. Not sure why this isn't built-in.
+- FIX: UIDragScrollView will no longer inform the scroll view of OnPress(false) on disable unless it's actually being dragged.
+- FIX: Removed ColorMask RGB from shaders since according to Unity docs it may slow down some mobiles.
+- FIX: Fixed Unity 5.4 function deprecation warnings.
+- MISC: Added Profiler.BeginSample/EndSample blocks to clarify GC allocations that only happen in the editor.
+
+3.9.9
+- NEW: Added customizable GetMouse, GetTouch and RemoveTouch delegates to UICamera replacing fixed Input calls. This makes all of NGUI's events go through user-settable delegates.
+- NEW: Sprite Animation script now has a frame offset index you can set if you want it to start at something other than 0.
+- NEW: UIScrollView now has a "constrain on drag" as an option rather than always being off.
+- FIX: UILabel resizing due to overflow settings will now trigger its UIWidget.onChange notification.
+- FIX: Fix for a visibility issue caused by instantiating a panel off-screen then bringing it into view.
+- FIX: Fixed a bug with text wrapping not wrapping colors properly in some situations (UITextList).
+
+3.9.8
+- NEW: NGUI now uses Color instead of Color32 for colors, which work better with linear space colors.
+- NEW: Added a modifier setting to the UILabel that can automatically change the text prior to displaying it, such as making it uppercase/lowercase or calling a custom modifier function.
+- FIX: Better handling of Linear space lighting.
+- FIX: Changing UIPanel.alpha no longer invalidates the widgets underneath it (performance boost).
+- FIX: Font Maker should now work even in the 32-bit version of Unity 5.
+- FIX: Forcing OpenGL in Windows will no longer result in a blurry UI.
+- FIX: Fix for an issue in Unity 5.4.
+
+3.9.7
+- NEW: Added "events go to colliders" option to all UICameras, not just the first one.
+- NEW: UICamera now has an option to process events in either Update or LateUpdate.
+- NEW: Added a "max width" property to labels set to overflow using Resize Freely.
+- NEW: UIPopupList now supports 2D sprites.
+- NEW: Added code to UIKeyBinding to convert its key+modifier to text format and back (good for saving a list of key bindings in files).
+- NEW: Added Set() functions to UIProgressBar, UIToggle, UIInput that can set a value without triggering the event callbacks.
+- NEW: Added Camera.FitOnScreen() extension that can be used to ensure that any UI does not go past the screen's dimensions (ex: tooltip).
+- NEW: Added TweenFill that can be used to tween filled sprites' fill value.
+- FIX: UIButton no longer fires its OnClick notification from right and middle mouse button clicks.
+- FIX: Fix for duration 0 tweens not advancing their time properly.
+- FIX: Fix for long press tooltips not showing properly on touch screens half the time.
+
+3.9.6
+- NEW: Added NGUITools.Draw<T> function that can be used like GUI.Draw (just much more efficient).
+- NEW: NGUITools.AddChild is now an extension method (ie: gameObject.AddChild).
+- NEW: Added several new versions of UIRect.SetAnchor.
+- NEW: UIRect.SetScreenRect can be used to set the widget's screen rect to be anchored to top-left, identical to how GUI.Draw(rect) would work.
+- NEW: Added "hide inactive" option to UIWrapContent.
+- NEW: Added the sorting layer name option to UIPanel (contributed by Benzino07).
+- NEW: serializedObject.DrawProperty() convenience function(editor)
+- NEW: Localization.Set(language, key, text) to add individual localization entries.
+- NEW: Added sprite gradient support (contributed by Nicki).
+- FIX: NGUITools.AddChild<T>() now caches types, making it faster.
+- FIX: Num pad's Enter is now treated just like Return by UIInput.
+- FIX: Fixed a deprecation warning on Unity 4.6.8 and 4.6.9.
+- FIX: Tweener will no longer use delta time for the first frame of the animation.
+- FIX: Drag & drop should no longer prevent mouse wheel from scrolling the scroll view until the next click.
+- FIX: Fix for UISpriteAnimation freezing the game after extended time being minimized.
+- FIX: Fixed compilation warnings in Unity 5.3.
+
+3.9.4
+- FIX: Work-around for a bug in Unity crashing when dynamic fonts are used (Unity also fixed it in 5.2.1p2).
+- FIX: Fix for caret appearing in the wrong place for a split second when typing past the end of the label.
+- FIX: Multi-line UIInput will now do a submit via Ctrl+Return by default.
+
+3.9.3
+- NEW: Toggle is now capable of triggering tweens in addition to animations.
+- FIX: UITextList should now wrap colors properly.
+- FIX: UIKeyNavigation will now highlight elements properly with Tab.
+- FIX: Keyboard input can now be used in Example 4.
+- FIX: More tweaks to dynamic fonts. Oh how I hate that particular "feature"...
+- FIX: Work-arounds for some new oddities in Unity 5.2.
+- FIX: Fix for an old bug that would sometimes cause items inside a tweened scroll view to be offset visually.
+- FIX: Minor tweaks related to ensuring that anchors get called properly on start only once.
+
+3.9.2
+- NEW: Added an option to UICamera to automatically hide the cursor when controller or touch input is used.
+- NEW: Added ellipsis overflow support by Jason Nollan.
+- NEW: Added an option to the Popup List to automatically create its popup on a separate panel, ensuring that it's always on top.
+- NEW: Added UICamera.first referencing the active NGUI event system.
+- FIX: Alpha should now work as expected with Linear lighting.
+- FIX: UICamera.isOverUI should now work properly for all types of input.
+- FIX: NGUIEditorTools.DrawProperty can now draw arrays.
+- FIX: Added mdeletrain's broken dynamic font fix.
+- FIX: Drag operation now cancels tooltips properly.
+- FIX: UITextList should now wrap colors properly.
+- FIX: Flash compilation fixes.
+
+3.9.1
+- NEW: NGUI will now automatically disable controller input on stand-alone builds if the game starts up with some joystick axis reporting non-zero.
+- NEW: Added command-line arguments that can enable/disable control types, such as -noJoystick.
+- NEW: Scene view UI focus is now bound to ALT+F.
+- FIX: Unity 5 dynamic font work-around.
+- FIX: Panels moving should no longer cause widgets to get marked as moving.
+- FIX: UICamera now uses the GetAnyKeyDown delegate.
+- FIX: Dragging a window should now be much faster.
+- FIX: UICamera.disableController should now report the correct value after a popup list has been closed.
+- FIX: UIPopupList will now again trigger callbacks on start when setting the default value.
+
+3.9.0
+- NEW: Completely redesigned how controller-based input was handled. It's now much more robust and handless seamless transitions from one method of input to another.
+- NEW: New OnNavigate and OnPan events. OnPan events require Pan axes to be set on the UICamera.
+- NEW: Scroll views are now scrollable via controller if Pan axes are set.
+- NEW: Sliders can now be adjusted via controller by using Pan axes.
+- NEW: OnKey event will now send all key press events to the targeted object.
+- NEW: Added UICamera.controllerNavigationObject that explicitly tracks controller-based selection.
+- NEW: NGUI now automatically finds and focuses on an appropriate UIKeyNavigation object if none has focus while receiving controller-based input.
+- NEW: Added a Color Picker.
+- NEW: Added a Tab option to the Key Navigation script (visible when it's attached to a UIInput).
+- NEW: Added a new "replacement key" feature to localization that lets you replace localization values without changing the localization itself. Useful for user-defined "overrides".
+- NEW: Added a proper editor class for the TypewriterEffect.
+- NEW: UIViewport will now automatically disable itself if the corner object has been disabled.
+- FIX: Various fixes and improvements for controller-based input support.
+- FIX: UITextList now properly line-wraps embedded colors.
+- FIX: UICenterOnChild should now respect paging through sorted lists.
+- FIX: Popup list's "ensure it's visible" code has been redesigned.
+- FIX: Optimized code related to widget change detection / buffer rebuilding.
+- FIX: Dynamic font labels will now automatically invalidate themselves when the application regains focus.
+- FIX: Unity 5 compatibility tweaks.
+- DEL: Removed the Keyboard scheme, since it's always Keyboard+Mouse.
 
 3.8.2
 - NEW: Localization will now automatically pull mobile version of keys if the current control scheme is touch.

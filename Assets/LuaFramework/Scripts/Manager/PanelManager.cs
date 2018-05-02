@@ -18,7 +18,7 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// ´´½¨Ãæ°å£¬ÇëÇó×ÊÔ´¹ÜÀíÆ÷
+        /// åˆ›å»ºå®¹å™¨
         /// </summary>
         /// <param name="type"></param>
         public void CreatePanel(string name, LuaFunction func = null) {
@@ -26,21 +26,21 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// ´´½¨Ãæ°å
+        /// å¼€å§‹åˆ›å»ºå®¹å™¨
         /// </summary>
         IEnumerator StartCreatePanel(string name, LuaFunction func = null) {
             AssetBundle bundle = ResManager.LoadBundle(name);
 
             name += "Panel";
             GameObject prefab = null;
-#if UNITY_5
+#if UNITY_5_3_OR_NEWER
             prefab = bundle.LoadAsset(name, typeof(GameObject)) as GameObject;
 #else
             prefab = bundle.Load(name, typeof(GameObject)) as GameObject;
 #endif
             yield return new WaitForEndOfFrame();
 
-            if (Parent.FindChild(name) != null || prefab == null) {
+            if (Parent.Find(name) != null || prefab == null) {
                 yield break;
             }
             GameObject go = Instantiate(prefab) as GameObject;
@@ -58,12 +58,12 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// ¹Ø±ÕÃæ°å
+        /// é”€æ¯å®¹å™¨
         /// </summary>
         /// <param name="name"></param>
         public void ClosePanel(string name) {
             var panelName = name + "Panel";
-            var panelObj = Parent.FindChild(panelName);
+            var panelObj = Parent.Find(panelName);
             if (panelObj == null) return;
             Destroy(panelObj.gameObject);
         }

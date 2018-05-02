@@ -35,7 +35,7 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// Ö´ĞĞLua·½·¨
+        /// æ‰§è¡ŒLuaæ–¹æ³•
         /// </summary>
         public object[] CallMethod(string func, params object[] args) {
             return Util.CallMethod("Network", func, args);
@@ -49,7 +49,7 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// ½»¸øCommand£¬ÕâÀï²»Ïë¹ØĞÄ·¢¸øË­¡£
+        /// äº¤ç»™Commandï¼Œè¿™é‡Œä¸æƒ³å…³å¿ƒå‘ç»™è°ã€‚
         /// </summary>
         void Update() {
             if (mEvents.Count > 0) {
@@ -61,21 +61,21 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// ·¢ËÍÁ´½ÓÇëÇó
+        /// å‘é€é“¾æ¥è¯·æ±‚
         /// </summary>
         public void SendConnect() {
             SocketClient.SendConnect();
         }
 
         /// <summary>
-        /// ·¢ËÍSOCKETÏûÏ¢
+        /// å‘é€SOCKETæ¶ˆæ¯
         /// </summary>
         public void SendMessage(ByteBuffer buffer) {
             SocketClient.SendMessage(buffer);
         }
 
         /// <summary>
-        /// Îö¹¹º¯Êı
+        /// ææ„å‡½æ•°
         /// </summary>
         new void OnDestroy() {
             SocketClient.OnRemove();

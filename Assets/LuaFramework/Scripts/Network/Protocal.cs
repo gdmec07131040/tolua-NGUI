@@ -2,8 +2,8 @@
 namespace LuaFramework {
     public class Protocal {
         ///BUILD TABLE
-        public const int Connect = 101;     //Á¬½Ó·şÎñÆ÷
-        public const int Exception = 102;     //Òì³£µôÏß
-        public const int Disconnect = 103;     //Õı³£¶ÏÏß   
+        public const int Connect = 101;     //è¿æ¥æœåŠ¡å™¨
+        public const int Exception = 102;     //å¼‚å¸¸æ‰çº¿
+        public const int Disconnect = 103;     //æ­£å¸¸æ–­çº¿   
     }
 }

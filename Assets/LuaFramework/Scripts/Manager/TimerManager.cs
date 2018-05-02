@@ -33,7 +33,7 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// Æô¶¯¼ÆÊ±Æ÷
+        /// å¯åŠ¨è®¡æ—¶å™¨
         /// </summary>
         /// <param name="interval"></param>
         public void StartTimer(float value) {
@@ -42,14 +42,14 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// Í£Ö¹¼ÆÊ±Æ÷
+        /// åœæ­¢è®¡æ—¶å™¨
         /// </summary>
         public void StopTimer() {
             CancelInvoke("Run");
         }
 
         /// <summary>
-        /// Ìí¼Ó¼ÆÊ±Æ÷ÊÂ¼ş
+        /// æ·»åŠ è®¡æ—¶å™¨äº‹ä»¶
         /// </summary>
         /// <param name="name"></param>
         /// <param name="o"></param>
@@ -60,7 +60,7 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// É¾³ı¼ÆÊ±Æ÷ÊÂ¼ş
+        /// åˆ é™¤è®¡æ—¶å™¨äº‹ä»¶
         /// </summary>
         /// <param name="name"></param>
         public void RemoveTimerEvent(TimerInfo info) {
@@ -70,7 +70,7 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// Í£Ö¹¼ÆÊ±Æ÷ÊÂ¼ş
+        /// åœæ­¢è®¡æ—¶å™¨äº‹ä»¶
         /// </summary>
         /// <param name="info"></param>
         public void StopTimerEvent(TimerInfo info) {
@@ -80,7 +80,7 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// ¼ÌĞø¼ÆÊ±Æ÷ÊÂ¼ş
+        /// ç»§ç»­è®¡æ—¶å™¨äº‹ä»¶
         /// </summary>
         /// <param name="info"></param>
         public void ResumeTimerEvent(TimerInfo info) {
@@ -90,7 +90,7 @@ namespace LuaFramework {
         }
 
         /// <summary>
-        /// ¼ÆÊ±Æ÷ÔËĞĞ
+        /// è®¡æ—¶å™¨è¿è¡Œ
         /// </summary>
         void Run() {
             if (objects.Count == 0) return;
@@ -101,7 +101,7 @@ namespace LuaFramework {
                 timer.TimerUpdate();
                 o.tick++;
             }
-            /////////////////////////Çå³ı±ê¼ÇÎªÉ¾³ıµÄÊÂ¼ş///////////////////////////
+            /////////////////////////æ¸…é™¤æ ‡è®°ä¸ºåˆ é™¤çš„äº‹ä»¶///////////////////////////
             for (int i = objects.Count - 1; i >= 0; i--) {
                 if (objects[i].delete) { objects.Remove(objects[i]); }
             }
