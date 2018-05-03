@@ -77,9 +77,10 @@ public class Packager {
 
     static void HandleBundle() {
         BuildLuaBundles();
+        
         string luaPath = AppDataPath + "/StreamingAssets/lua/";
         string[] luaPaths = { AppDataPath + "/LuaFramework/lua/", 
-                              AppDataPath + "/LuaFramework/Tolua/Lua/" };
+                              AppDataPath + "/Third/Tolua/Lua/" };
 
         for (int i = 0; i < luaPaths.Length; i++) {
             paths.Clear(); files.Clear();
@@ -271,7 +272,7 @@ public class Packager {
             Directory.CreateDirectory(luaPath); 
         }
         string[] luaPaths = { AppDataPath + "/LuaFramework/lua/", 
-                              AppDataPath + "/LuaFramework/Tolua/Lua/" };
+                              AppDataPath + "/Third/Tolua/Lua/" };
 
         for (int i = 0; i < luaPaths.Length; i++) {
             paths.Clear(); files.Clear();

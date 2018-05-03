@@ -12,7 +12,7 @@ public static class CustomSettings
 {
     public static string FrameworkPath = AppConst.ThirdRoot;
     public static string saveDir = FrameworkPath + "/ToLua/Source/Generate/";
-    public static string luaDir = FrameworkPath + "/Lua/";
+    public static string luaDir = AppConst.FrameworkRoot + "/Lua/";//修正这里是Framework里的Lua目录
     public static string toluaBaseType = FrameworkPath + "/ToLua/BaseType/";
 	public static string toluaLuaDir = FrameworkPath + "/ToLua/Lua";
 
