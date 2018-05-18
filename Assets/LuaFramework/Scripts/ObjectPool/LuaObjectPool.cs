@@ -10,7 +10,7 @@ public class LuaObjectPool {
         public int parent = 0; //默认为head(空)
         public Transform mTransform;
         public Dictionary<int, Component> mComponents = new Dictionary<int, Component> (); //存储组件
-        public List<int> mChilds = new List<int>();
+        public List<int> mChilds = new List<int> ();
         public Transform transform {
             get {
                 if (mTransform == null) {
@@ -44,17 +44,17 @@ public class LuaObjectPool {
             }
             return 0;
         }
-        public void AddChild(int handle){
-            if (mChilds.Contains(handle)){
+        public void AddChild (int handle) {
+            if (mChilds.Contains (handle)) {
                 return;
             }
-            mChilds.Add(handle);
+            mChilds.Add (handle);
         }
-        public void RemoveChild(int handle){
-            if (!mChilds.Contains(handle)){
+        public void RemoveChild (int handle) {
+            if (!mChilds.Contains (handle)) {
                 return;
             }
-            mChilds.Remove(handle);
+            mChilds.Remove (handle);
         }
     }
     private List<PoolNode> list;
@@ -82,48 +82,81 @@ public class LuaObjectPool {
         head = null;
         count = 0;
     }
-    public int Add (GameObject obj) {
+    //需要检查避免重复
+    public int New (GameObject obj, int parent) {
+#if UNITY_EDITOR
+        for (int i = 0; i < list.Count; i++) {
+            PoolNode node = list[i];
+            if (node != null && node.obj == obj) {
+                Debug.Log ("GameObject Get Twice Obj Name = " + obj.name);
+            }
+        }
+#endif
+        int index = Add (obj, parent);
+        return index;
+
+    }
+    public int Add (GameObject obj, int parent) {
         int pos = -1;
         if (head.index != 0) {
             pos = head.index;
-            list[pos].obj = obj;
-            head.index = list[pos].index;
+            PoolNode node = list[pos];
+            node.obj = obj;
+            head.index = node.index;
+            if (parent > 0 && parent < count) {
+                node.parent = parent;
+                list[parent].AddChild (node.index);
+            }
         } else {
             pos = list.Count;
             list.Add (new PoolNode (pos, obj));
+            list[pos].parent = parent;
             count = pos + 1;
         }
         return pos;
     }
-    public GameObject Get(int pos){
+    public GameObject Get (int pos) {
         if (pos > 0 && pos < count) {
             GameObject o = list[pos].obj;
-            if(o != null){
+            if (o != null) {
                 return o;
             }
         }
         return null;
     }
-    public GameObject Remove (int pos) {
+    public Transform GetTransform (int pos) {
         if (pos > 0 && pos < count) {
-            GameObject o = list[pos].obj;
-            list[pos].obj = null;
-            list[pos].index = head.index; //头部必定是空
-            list[pos].mComponents.Clear();
-            list[pos].mChilds.Clear();
-            head.index = pos;//下一个Add使用此位置
+            PoolNode node = list[pos];
+            return node.transform;
+        }
+        return null;
+    }
+    //关于Destory的一些问题
+    //调用前删除(对象)
+    //是否child需要从List中移除
+    //是否父对象需要删除子对象
+    //删除成为head
+    public GameObject Destroy (int pos, bool detach) {
+        if (pos > 0 && pos < count) {
+            PoolNode node = list[pos];
+            GameObject o = node.obj;
+            node.obj = null;
+            node.index = head.index;
+            node.mComponents.Clear ();
+            for (int i = 0; i != node.mChilds.Count; i++) {
+                Destroy (node.mChilds[i], false); //子物体删除
+            }
+            node.mChilds.Clear ();
+            head.index = pos; //下一个Add使用此位置
+            if (detach && node.parent != 0) {
+                PoolNode parent = list[node.parent];
+                parent.RemoveChild (pos);
+            }
             return o;
         }
         return null;
     }
-    public GameObject Destroy (int pos) {
-        if (pos > 0 && pos < count) {
-            GameObject o = list[pos].obj;
-            list[pos].obj = null;
-            return o;
-        }
-        return null;
-    }
+
     public int comIndexToObjIndex (int comIndex) {
         return comIndex / iComStart;
     }
