@@ -4,6 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LuaObjectPool {
+    private static LuaObjectPool _instance;
+    public static readonly int NULL = 0;
+    public static LuaObjectPool Instance {
+        get {
+            if (_instance == null) {
+                _instance = new LuaObjectPool ();
+            }
+            return _instance;
+        }
+    }
     class PoolNode {
         public int index;
         public GameObject obj; //只针对GameObject

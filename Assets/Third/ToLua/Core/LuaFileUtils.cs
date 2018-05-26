@@ -20,132 +20,107 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Collections;
 using System.Text;
+using UnityEngine;
 
-namespace LuaInterface
-{
-    public class LuaFileUtils
-    {
-        public static LuaFileUtils Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new LuaFileUtils();
+namespace LuaInterface {
+    public class LuaFileUtils {
+        public static LuaFileUtils Instance {
+            get {
+                if (instance == null) {
+                    instance = new LuaFileUtils ();
                 }
 
                 return instance;
             }
 
-            protected set
-            {
+            protected set {
                 instance = value;
             }
         }
 
         //beZip = false 在search path 中查找读取lua文件。否则从外部设置过来bundel文件中读取lua文件
         public bool beZip = false;
-        protected List<string> searchPaths = new List<string>();
-        protected Dictionary<string, AssetBundle> zipMap = new Dictionary<string, AssetBundle>();
+        protected List<string> searchPaths = new List<string> ();
+        protected Dictionary<string, AssetBundle> zipMap = new Dictionary<string, AssetBundle> ();
 
         protected static LuaFileUtils instance = null;
 
-        public LuaFileUtils()
-        {
+        public LuaFileUtils () {
             instance = this;
         }
 
-        public virtual void Dispose()
-        {
-            if (instance != null)
-            {
+        public virtual void Dispose () {
+            if (instance != null) {
                 instance = null;
-                searchPaths.Clear();
+                searchPaths.Clear ();
 
-                foreach (KeyValuePair<string, AssetBundle> iter in zipMap)
-                {
-                    iter.Value.Unload(true);
+                foreach (KeyValuePair<string, AssetBundle> iter in zipMap) {
+                    iter.Value.Unload (true);
                 }
 
-                zipMap.Clear();
+                zipMap.Clear ();
             }
         }
 
         //格式: 路径/?.lua
-        public bool AddSearchPath(string path, bool front = false)
-        {
-            int index = searchPaths.IndexOf(path);
+        public bool AddSearchPath (string path, bool front = false) {
+            int index = searchPaths.IndexOf (path);
 
-            if (index >= 0)
-            {
+            if (index >= 0) {
                 return false;
             }
 
-            if (front)
-            {
-                searchPaths.Insert(0, path);
-            }
-            else
-            {
-                searchPaths.Add(path);
+            if (front) {
+                searchPaths.Insert (0, path);
+            } else {
+                searchPaths.Add (path);
             }
 
             return true;
         }
 
-        public bool RemoveSearchPath(string path)
-        {
-            int index = searchPaths.IndexOf(path);
+        public bool RemoveSearchPath (string path) {
+            int index = searchPaths.IndexOf (path);
 
-            if (index >= 0)
-            {
-                searchPaths.RemoveAt(index);
+            if (index >= 0) {
+                searchPaths.RemoveAt (index);
                 return true;
             }
 
             return false;
         }
 
-        public void AddSearchBundle(string name, AssetBundle bundle)
-        {
-            zipMap[name] = bundle;            
+        public void AddSearchBundle (string name, AssetBundle bundle) {
+            zipMap[name] = bundle;
         }
 
-        public string FindFile(string fileName)
-        {
-            if (fileName == string.Empty)
-            {
+        public string FindFile (string fileName) {
+            if (fileName == string.Empty) {
                 return string.Empty;
             }
 
-            if (Path.IsPathRooted(fileName))
-            {                
-                if (!fileName.EndsWith(".lua"))
-                {
+            if (Path.IsPathRooted (fileName)) {
+                if (!fileName.EndsWith (".lua")) {
                     fileName += ".lua";
                 }
 
                 return fileName;
             }
-            
-            if (fileName.EndsWith(".lua"))
-            {
-                fileName = fileName.Substring(0, fileName.Length - 4);
+
+            if (fileName.EndsWith (".lua")) {
+                fileName = fileName.Substring (0, fileName.Length - 4);
             }
 
             string fullPath = null;
 
-            for (int i = 0; i < searchPaths.Count; i++)
-            {
-                fullPath = searchPaths[i].Replace("?", fileName);
+            for (int i = 0; i < searchPaths.Count; i++) {
+                fullPath = searchPaths[i].Replace ("?", fileName);
 
-                if (File.Exists(fullPath))
-                {
+                if (File.Exists (fullPath)) {
                     return fullPath;
                 }
             }
@@ -153,125 +128,104 @@ namespace LuaInterface
             return null;
         }
 
-        public virtual byte[] ReadFile(string fileName)
-        {
-            if (!beZip)
-            {
-                string path = FindFile(fileName);
+        public virtual byte[] ReadFile (string fileName) {
+            if (!beZip) {
+                string path = FindFile (fileName);
                 byte[] str = null;
 
-                if (!string.IsNullOrEmpty(path) && File.Exists(path))
-                {
+                if (!string.IsNullOrEmpty (path) && File.Exists (path)) {
 #if !UNITY_WEBPLAYER
-                    str = File.ReadAllBytes(path);
+                    str = File.ReadAllBytes (path);
 #else
-                    throw new LuaException("can't run in web platform, please switch to other platform");
+                    throw new LuaException ("can't run in web platform, please switch to other platform");
 #endif
                 }
 
                 return str;
-            }
-            else
-            {
-                return ReadZipFile(fileName);
-            }
-        }        
-
-        public virtual string FindFileError(string fileName)
-        {
-            if (Path.IsPathRooted(fileName))
-            {
-                return fileName;
-            }            
-
-            if (fileName.EndsWith(".lua"))
-            {
-                fileName = fileName.Substring(0, fileName.Length - 4);
-            }
-
-            using (CString.Block())
-            {
-                CString sb = CString.Alloc(512);
-
-                for (int i = 0; i < searchPaths.Count; i++)
-                {
-                    sb.Append("\n\tno file '").Append(searchPaths[i]).Append('\'');
-                }
-
-                sb = sb.Replace("?", fileName);
-
-                if (beZip)
-                {
-                    int pos = fileName.LastIndexOf('/');                                        
-
-                    if (pos > 0)
-                    {
-                        int tmp = pos + 1;
-                        sb.Append("\n\tno file '").Append(fileName, tmp, fileName.Length - tmp).Append(".lua' in ").Append("lua_");
-                        tmp = sb.Length;
-                        sb.Append(fileName, 0, pos).Replace('/', '_', tmp, pos).Append(".unity3d");
-                    }
-                    else
-                    {                        
-                        sb.Append("\n\tno file '").Append(fileName).Append(".lua' in ").Append("lua.unity3d");
-                    }                    
-                }
-
-                return sb.ToString();
+            } else {
+                return ReadZipFile (fileName);
             }
         }
 
-        byte[] ReadZipFile(string fileName)
-        {
+        public virtual string FindFileError (string fileName) {
+            if (Path.IsPathRooted (fileName)) {
+                return fileName;
+            }
+
+            if (fileName.EndsWith (".lua")) {
+                fileName = fileName.Substring (0, fileName.Length - 4);
+            }
+
+            using (CString.Block ()) {
+                CString sb = CString.Alloc (512);
+
+                for (int i = 0; i < searchPaths.Count; i++) {
+                    sb.Append ("\n\tno file '").Append (searchPaths[i]).Append ('\'');
+                }
+
+                sb = sb.Replace ("?", fileName);
+
+                if (beZip) {
+                    int pos = fileName.LastIndexOf ('/');
+
+                    if (pos > 0) {
+                        int tmp = pos + 1;
+                        sb.Append ("\n\tno file '").Append (fileName, tmp, fileName.Length - tmp).Append (".lua' in ").Append ("lua_");
+                        tmp = sb.Length;
+                        sb.Append (fileName, 0, pos).Replace ('/', '_', tmp, pos).Append (".unity3d");
+                    } else {
+                        sb.Append ("\n\tno file '").Append (fileName).Append (".lua' in ").Append ("lua.unity3d");
+                    }
+                }
+
+                return sb.ToString ();
+            }
+        }
+
+        byte[] ReadZipFile (string fileName) {
             AssetBundle zipFile = null;
             byte[] buffer = null;
             string zipName = null;
 
-            using (CString.Block())
-            {
-                CString sb = CString.Alloc(256);
-                sb.Append("lua");
-                int pos = fileName.LastIndexOf('/');
+            using (CString.Block ()) {
+                CString sb = CString.Alloc (256);
+                sb.Append ("lua");
+                int pos = fileName.LastIndexOf ('/');
 
-                if (pos > 0)
-                {
-                    sb.Append("_");                    
-                    sb.Append(fileName, 0, pos).ToLower().Replace('/', '_');                                        
-                    fileName = fileName.Substring(pos + 1);
+                if (pos > 0) {
+                    sb.Append ("_");
+                    sb.Append (fileName, 0, pos).ToLower ().Replace ('/', '_');
+                    fileName = fileName.Substring (pos + 1);
                 }
 
-                if (!fileName.EndsWith(".lua"))
-                {
+                if (!fileName.EndsWith (".lua")) {
                     fileName += ".lua";
                 }
 
-#if UNITY_5 || UNITY_2017
+#if UNITY_5 || UNITY_5_3_OR_NEWER
                 fileName += ".bytes";
 #endif
-                zipName = sb.ToString();
-                zipMap.TryGetValue(zipName, out zipFile);
-            }            
+                zipName = sb.ToString ();
+                zipMap.TryGetValue (zipName, out zipFile);
+            }
 
-            if (zipFile != null)
-            {
-#if UNITY_5 || UNITY_2017
-                TextAsset luaCode = zipFile.LoadAsset<TextAsset>(fileName);
-#else
+            if (zipFile != null) {
+#if UNITY_4_6 || UNITY_4_7
                 TextAsset luaCode = zipFile.Load(fileName, typeof(TextAsset)) as TextAsset;
+#else
+                TextAsset luaCode = zipFile.LoadAsset<TextAsset>(fileName);
 #endif
 
-                if (luaCode != null)
-                {
+                if (luaCode != null) {
                     buffer = luaCode.bytes;
-                    Resources.UnloadAsset(luaCode);
+                    Resources.UnloadAsset (luaCode);
                 }
             }
 
             return buffer;
         }
 
-        public static string GetOSDir()
-        {
+        public static string GetOSDir () {
             return LuaConst.osDir;
         }
     }

@@ -366,7 +366,7 @@ public static class ToLuaExport
 
             for (int i = 0; i < args.Length; i++)
             {
-                ss[i] = GetTypeStr(args[i].ParameterType);
+                ss[i] = GetTypeStr(args[i].GetType());
             }
 
             if (!ToLuaExport.IsGenericMethod(method))
@@ -754,7 +754,7 @@ public static class ToLuaExport
 
         //Debugger.Log("Begin Generate lua Wrap for class {0}", className);        
         sb = new StringBuilder();
-        usingList.Add("System");                
+        usingList.Add("System");
 
         if (wrapClassName == "")
         {

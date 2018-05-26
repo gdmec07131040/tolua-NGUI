@@ -22,7 +22,7 @@ namespace LuaFramework {
 
         public void InitStart() {
             InitLuaPath();
-            InitLuaBundle();
+            // InitLuaBundle();
             this.lua.Start();    //启动LUAVM
             this.StartMain();
             this.StartLooper();
@@ -72,7 +72,7 @@ namespace LuaFramework {
         void InitLuaPath() {
             if (AppConst.DebugMode) {
                 string rootPath = AppConst.ThirdRoot;
-                lua.AddSearchPath(rootPath + "/Lua");
+                lua.AddSearchPath(AppConst.FrameworkRoot + "/Lua");
                 lua.AddSearchPath(rootPath + "/ToLua/Lua");
             } else {
                 lua.AddSearchPath(Util.DataPath + "lua");
