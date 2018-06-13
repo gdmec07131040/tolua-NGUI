@@ -79,7 +79,7 @@ public class SocketClient {
     }
 
     /// <summary>
-    /// 写数据
+    /// 写数据 TODO:返回是否成功
     /// </summary>
     void WriteMessage(byte[] message) {
         MemoryStream ms = null;
@@ -230,7 +230,7 @@ public class SocketClient {
     }
 
     /// <summary>
-    /// 发送连接请求
+    /// 发送连接请求 服务器链接多变的 TODO:新增参数 连接返回
     /// </summary>
     public void SendConnect() {
         ConnectServer(AppConst.SocketAddress, AppConst.SocketPort);
