@@ -76,7 +76,7 @@ public class LuaObjectPool {
         list = new List<PoolNode> ();
         head = new PoolNode (0, null);
         list.Add (head);
-        list.Add (new PoolNode (1, null));
+        //list.Add (new PoolNode (1, null));
         count = list.Count;
     }
     public GameObject this [int i] {
@@ -108,6 +108,7 @@ public class LuaObjectPool {
     }
     public int Add (GameObject obj, int parent) {
         int pos = -1;
+        Debug.LogError("head.index = "+ head.index + " count = "+ count);
         if (head.index != 0) {
             pos = head.index;
             PoolNode node = list[pos];
@@ -146,7 +147,7 @@ public class LuaObjectPool {
     //是否child需要从List中移除
     //是否父对象需要删除子对象
     //删除成为head
-    public GameObject Destroy (int pos, bool detach) {
+    public GameObject Destroy (int pos, bool detach = true) {
         if (pos > 0 && pos < count) {
             PoolNode node = list[pos];
             GameObject o = node.obj;

@@ -1,2 +1,11 @@
 1.build lua代码 是将 *.lua 转化为 *.lua.bytes 文件
 2.先由HTTP请求登录---服务器列表--再由socket进行服务器连接
+3.元表的设置
+    t1 = {} -- 普通表
+    t2 = {} -- 元表
+    setmetatable(t1,t2) -- 把t2设置为t1的元表
+4.__index是:当我们访问一个表中的元素不存在时，则会触发去寻找__index元方法，如果不存在，则返回nil，如果存在，则返回结果。
+5.rawget(原始获取) 一次不考虑元表的简单访问
+    格式 rawget(table, key)
+6.rawset(原始设置)
+    格式 rawset(table, key, value)
