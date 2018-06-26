@@ -71,7 +71,7 @@ public class LuaObjectPool {
     //同lua_ref策略，0作为一个回收链表头，不使用这个位置
     private PoolNode head = null;
     private int count = 0;
-    private int iComStart = 10000;
+    private int comStart = 10000;
     public LuaObjectPool () {
         list = new List<PoolNode> ();
         head = new PoolNode (0, null);
@@ -79,6 +79,10 @@ public class LuaObjectPool {
         //list.Add (new PoolNode (1, null));
         count = list.Count;
     }
+    /// <summary>
+    /// 用法:LuaObjectPool.Instance[pos]
+    /// </summary>
+    /// <returns></returns>
     public GameObject this [int i] {
         get {
             if (i > 0 && i < count) {
@@ -91,6 +95,7 @@ public class LuaObjectPool {
         list.Clear ();
         head = null;
         count = 0;
+        _instance = null;
     }
     //需要检查避免重复
     public int New (GameObject obj, int parent) {
@@ -102,13 +107,12 @@ public class LuaObjectPool {
             }
         }
 #endif
-        int index = Add (obj, parent);
-        return index;
+        int pos = Add (obj, parent);
+        return pos;
 
     }
     public int Add (GameObject obj, int parent) {
         int pos = -1;
-        Debug.LogError("head.index = "+ head.index + " count = "+ count);
         if (head.index != 0) {
             pos = head.index;
             PoolNode node = list[pos];
@@ -169,13 +173,13 @@ public class LuaObjectPool {
     }
 
     public int comIndexToObjIndex (int comIndex) {
-        return comIndex / iComStart;
+        return comIndex / comStart;
     }
     public int AddComponent (int pos, Component com) {
         if (pos > 0 && pos < count) {
             GameObject o = list[pos].obj;
             int comCount = list[pos].mComponents.Count;
-            int index = (comCount++) + iComStart * pos; //可反向找到o
+            int index = (comCount++) + comStart * pos; //可反向找到o
             list[pos].mComponents.Add (index, com);
             return index;
         }
@@ -188,20 +192,26 @@ public class LuaObjectPool {
             if (com == null) {
                 return 0;
             }
+#if UNITY_EDITOR
             int index = list[pos].GetComponent (com);
-            if (index == 0) {
-                //存在但是没有存储
-                return AddComponent (pos, com);
-            }
+            if (index == 0)
+#else
+                int index = 0
+#endif
+            {
+                index = AddComponent (pos, com);
+            };
+            return index;
         }
         return 0;
+
     }
     public Component GetComponent (int comIndex) {
         int pos = comIndexToObjIndex (comIndex);
         if (pos > 0 && pos < count) {
-            Component mCom = list[pos].GetComponent (comIndex);
-            if (mCom != null) {
-                return mCom;
+            Component com = list[pos].GetComponent (comIndex);
+            if (com != null) {
+                return com;
             }
         }
         return null;

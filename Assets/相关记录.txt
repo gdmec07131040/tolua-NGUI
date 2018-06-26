@@ -9,3 +9,4 @@
     格式 rawget(table, key)
 6.rawset(原始设置)
     格式 rawset(table, key, value)
+7.针对C# 属性单个单词纯小写  拼接单词开头小写
