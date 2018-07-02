@@ -7,8 +7,20 @@ namespace LuaFramework {
     /// </summary>
     public class Main : MonoBehaviour {
 
+        void Awake() {
+            gameObject.AddComponent<LuaManager>();
+            gameObject.AddComponent<PanelManager>();
+            gameObject.AddComponent<SoundManager>();
+            gameObject.AddComponent<TimerManager>();//这个不要
+            gameObject.AddComponent<NetworkManager>();
+            gameObject.AddComponent<ResourceManager>();
+            gameObject.AddComponent<ThreadManager>();//这个不要
+            gameObject.AddComponent<ObjectPoolManager>();
+            gameObject.AddComponent<GameManager>();
+            
+        }
         void Start() {
-            AppFacade.Instance.StartUp();   //启动游戏
+            //AppFacade.Instance.StartUp();   //启动游戏
             int a = GameObjectToLua.New();
             int b = GameObjectToLua.NewWithNameParent("a的子物体", a);
             Debug.LogError(a);

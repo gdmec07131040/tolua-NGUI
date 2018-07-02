@@ -77,7 +77,7 @@ namespace LuaFramework {
         /// <summary>
         /// 析构函数
         /// </summary>
-        new void OnDestroy() {
+        void OnDestroy() {
             SocketClient.OnRemove();
             Debug.Log("~NetworkManager was destroy");
         }

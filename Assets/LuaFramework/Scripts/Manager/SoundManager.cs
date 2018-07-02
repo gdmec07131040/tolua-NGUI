@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LuaFramework {
     public class SoundManager : Manager {
-        private AudioSource audio;
+        private new AudioSource audio;
         private Hashtable sounds = new Hashtable();
 
         void Start() {

@@ -24,7 +24,6 @@ public class UIWidgetInspector : UIRectEditor
 		Scale,
 		Rotate,
 	}
-
 	Action mAction = Action.None;
 	Action mActionUnderMouse = Action.None;
 	bool mAllowSelection = true;
@@ -1036,6 +1035,7 @@ public class UIWidgetInspector : UIRectEditor
 
 		GUILayout.Space(2f);
 		GUILayout.BeginHorizontal();
+		EditorGUI.BeginDisabledGroup(true);
 		{
 			EditorGUILayout.PrefixLabel("Depth");
 
@@ -1059,6 +1059,7 @@ public class UIWidgetInspector : UIRectEditor
 				}
 			}
 		}
+		EditorGUI.EndDisabledGroup();
 		GUILayout.EndHorizontal();
 
 		int matchingDepths = 1;
