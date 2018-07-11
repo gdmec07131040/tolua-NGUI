@@ -122,7 +122,7 @@ internal class UIEditorDepth {
         }
         var toolbar = new Rect (rightPart.x + splitterWidth, rightPart.y, rightPart.width - splitterWidth * 2, 20f);
 
-        float toolbarWidth = rightPart.width - 5;
+        //float toolbarWidth = rightPart.width - 5;
         mType = (TypeEnum) GUI.Toolbar (toolbar, (int) mType, labels);
         var intfield = new Rect (toolbar.x, rightPart.y + toolbar.height + 2f, toolbar.width, 16f);
         offset = EditorGUI.IntField (intfield, "Offset", offset);

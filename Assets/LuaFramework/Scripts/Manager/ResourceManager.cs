@@ -4,7 +4,7 @@ using System.IO;
 using System;
 
 namespace LuaFramework {
-    public class ResourceManager : Manager {
+    public class ResourceManager : MonoSingleton<ResourceManager> {
         private AssetBundle shared;
 
         /// <summary>
@@ -31,6 +31,7 @@ namespace LuaFramework {
         /// </summary>
         public AssetBundle LoadBundle(string name) {
             string uri = Util.DataPath + name.ToLower() + AppConst.ExtName;
+            Debug.LogError(uri);
             AssetBundle bundle = AssetBundle.LoadFromFile(uri); //关联数据的素材绑定
             return bundle;
         }

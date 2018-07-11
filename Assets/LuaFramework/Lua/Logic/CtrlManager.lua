@@ -8,7 +8,7 @@ local ctrlList = {};	--控制器列表--
 
 function CtrlManager.Init()
 	logWarn("CtrlManager.Init----->>>");
-	ctrlList[CtrlNames.Prompt] = PromptCtrl.New();
+	-- ctrlList[CtrlNames.Prompt] = PromptCtrl.New();
 	ctrlList[CtrlNames.Message] = MessageCtrl.New();
 	return this;
 end

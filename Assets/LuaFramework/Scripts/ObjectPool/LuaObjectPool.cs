@@ -45,12 +45,16 @@ public class LuaObjectPool {
         }
         public int GetComponent (Component com) {
             Dictionary<int, Component>.Enumerator e = mComponents.GetEnumerator ();
-            for (int i = 0; i != mComponents.Count; i++) {
+            /* for (int i = 0; i != mComponents.Count; i++) {
                 e.MoveNext ();
                 KeyValuePair<int, Component> pair = e.Current;
                 if (pair.Value == com) {
                     return pair.Key;
                 }
+            } */
+            while (e.MoveNext ()) {
+                if (com == e.Current.Value)
+                    return e.Current.Key;
             }
             return 0;
         }
@@ -177,7 +181,7 @@ public class LuaObjectPool {
     }
     public int AddComponent (int pos, Component com) {
         if (pos > 0 && pos < count) {
-            GameObject o = list[pos].obj;
+            //GameObject o = list[pos].obj;
             int comCount = list[pos].mComponents.Count;
             int index = (comCount++) + comStart * pos; //可反向找到o
             list[pos].mComponents.Add (index, com);

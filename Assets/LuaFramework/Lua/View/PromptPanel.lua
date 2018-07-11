@@ -8,7 +8,6 @@ local this = PromptPanel;
 function PromptPanel.Awake(obj)
 	gameObject = obj;
 	transform = obj.transform;
-
 	this.InitPanel();
 	logWarn("Awake lua--->>"..gameObject.name);
 end

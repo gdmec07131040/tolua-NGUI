@@ -272,8 +272,42 @@ namespace LuaFramework {
             backObj.transform.SetParent(null);
 
             Debug.Log("TestGameObject--->>>" + backObj);
-        }
 
+            PoolManager.Instance.Get("TestGameObjectPrefab","TestGameObjectPrefab",new Action<UnityEngine.Object>(LoadComplite));
+            PoolManager.Instance.Get("TestGameObjectPrefab","TestGameObjectPrefab",new Action<UnityEngine.Object>(LoadComplite1));
+            PoolManager.Instance.Get("TestGameObjectPrefab","TestGameObjectPrefab",new Action<UnityEngine.Object>(LoadComplite2));
+            PoolManager.Instance.Get("TestGameObjectPrefab","TestGameObjectPrefab",new Action<UnityEngine.Object>(LoadComplite3));
+            PoolManager.Instance.Get("TestGameObjectPrefab","TestGameObjectPrefab",new Action<UnityEngine.Object>(LoadComplite4));
+            PoolManager.Instance.Get("TestGameObjectPrefab","TestGameObjectPrefab",new Action<UnityEngine.Object>(LoadComplite5));
+            /* PoolManager.Instance.Get("TestGameObjectPrefab","TestGameObjectPrefab",(obj)=>{
+                GameObject temp = obj as GameObject;
+
+            }); */
+        }
+        void LoadComplite(UnityEngine.Object result){
+            PoolManager.Instance.Recycle(result);
+            // GameObject temp = result as GameObject;
+            // temp.transform.SetParent(transform);
+        }
+        void LoadComplite1(UnityEngine.Object result){
+            // GameObject temp = result as GameObject;
+            // temp.transform.SetParent(transform);
+            PoolManager.Instance.Recycle(result);
+        }
+        void LoadComplite2(UnityEngine.Object result){
+           PoolManager.Instance.Recycle(result);
+        //    GameObject temp = result as GameObject;
+        //     temp.transform.SetParent(transform);
+        }
+        void LoadComplite3(UnityEngine.Object result){
+           PoolManager.Instance.Recycle(result);
+        }
+        void LoadComplite4(UnityEngine.Object result){
+            PoolManager.Instance.Recycle(result);
+        }
+        void LoadComplite5(UnityEngine.Object result){
+            PoolManager.Instance.Recycle(result);
+        }
         /// <summary>
         /// 当从池子里面获取时
         /// </summary>
