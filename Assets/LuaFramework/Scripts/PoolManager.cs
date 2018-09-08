@@ -23,23 +23,10 @@ public class PoolManager : MonoSingleton<PoolManager> {
             return mPoolContainer.transform;
         }
     }
+
     private void Awake () {
         defaultStrategy = new PoolStrategy ();
         disposeCache = new List<AssetID> ();
-    }
-    private void StartCheckGC () {
-
-    }
-    private void StopCheckGC () {
-
-    }
-
-    IEnumerator CheckGC () {
-        while (true) {
-            yield return new WaitForSeconds (60f);
-
-            break;
-        }
     }
     private void LateUpdate () {
         //检查并回收垃圾
@@ -109,6 +96,7 @@ public class PoolManager : MonoSingleton<PoolManager> {
             AddLoadQueue (pool, callback); //加载完调用
         } else {
             //直接回调 这里也可以改成加到加载队列
+            //两种方式的区别在于 refcount的变化
             if (callback != null) {
                 Debug.LogError ("存在池子");
                 //考虑在池子拿出去的都放在一个空obj下
@@ -116,6 +104,7 @@ public class PoolManager : MonoSingleton<PoolManager> {
                 Debug.LogError ("获取到对象");
                 AddActivePoolInfo (target, id);
                 callback (target);
+                //AddLoadQueue (pool, callback); //加载完调用
             }
         }
         //Instance.StartCheckGC ();
@@ -169,23 +158,6 @@ public class PoolManager : MonoSingleton<PoolManager> {
         } else {
             Object.Destroy (target);
         }
-    }
-    public void RemovePool (IPool pool) {
-        pool.Dispose ();
-        mPools.Remove (pool.id);
-    }
-    private bool TryRemovePool (IPool pool) {
-        if (pool.IsDisposeable) {
-
-        }
-        return false;
-    }
-
-    private bool TryClearPool (IPool pool) {
-        return false;
-    }
-    private void ClearPool () {
-
     }
 
     /// <summary>

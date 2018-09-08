@@ -58,7 +58,6 @@ namespace LuaFramework {
                 luafunc.Call(go);
             };
         }
-
         /// <summary>
         /// 删除单击事件
         /// </summary>

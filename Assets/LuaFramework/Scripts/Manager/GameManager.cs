@@ -282,7 +282,7 @@ namespace LuaFramework {
             /* PoolManager.Instance.Get("TestGameObjectPrefab","TestGameObjectPrefab",(obj)=>{
                 GameObject temp = obj as GameObject;
 
-            }); */
+            }); */    
         }
         void LoadComplite(UnityEngine.Object result){
             PoolManager.Instance.Recycle(result);

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class LuaObjectPool {
     private static LuaObjectPool _instance;
     public static readonly int NULL = 0;
@@ -200,7 +199,7 @@ public class LuaObjectPool {
             int index = list[pos].GetComponent (com);
             if (index == 0)
 #else
-                int index = 0
+                int index = 0;
 #endif
             {
                 index = AddComponent (pos, com);

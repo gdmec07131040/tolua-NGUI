@@ -5,6 +5,7 @@ using System.Collections.Generic;
 /// <summary>
 /// 资源对象池
 /// TODO 删除IPool接口 不需要
+/// 游戏品质变化 策略跟着变化
 /// </summary>
 public class ResourcePool : IPool {
 
@@ -16,7 +17,6 @@ public class ResourcePool : IPool {
     private List<Object> freelist = new List<Object> (); //已回收列表 需要删除超出部分 而使用List
     private const float DefaultLifeTime = 1800;
     private int refCount = 0; //引用次数 在获取时加处理 回收和回调成功后减处理（当你在使用池子的时候不允许有销毁池子的行为）
-    //先理解为使用次数 获取的时候++ 回收的时候--
     private PoolStrategy strategy = null;
     private float recycleTimeCache = 0f;
     private float destroyTimeCache = 0f;
@@ -57,6 +57,7 @@ public class ResourcePool : IPool {
     /// <summary>
     /// 清空池子
     /// </summary>
+/// 
     public void Clear () {
         throw new System.NotImplementedException ();
     }
